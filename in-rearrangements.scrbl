@@ -87,11 +87,12 @@
 @(defmodule "in-rearrangements.rkt" #:packages ())
 
 @defproc[(in-rearrangements (lst list?) (eq (-> any/c any/c any/c) equal?)) (Sequenceof list?)]{
-Returns a lazy sequence of all distinct rearrangements of argument @rack[lst].
+Returns a sequence of all distinct rearrangements of argument @rack[lst].
 A rearrangement of a list is a list of the same elements but in arbitrary order,
 the initial order in argument @rack[lst] included.
-Argument @rack[eq] must be an equivalence relation for the set of the elements of
-argument @rack[lst]. What @rack[eq] does with other arguments is irrelevant.
+Argument @rack[eq] must be an equivalence relation for the set of the elements of argument
+@rack[lst].
+What @rack[eq] does with other arguments than elements of argument @rack[lst] is irrelevant.
 Two rearrangements are distinct if and only if @rack[eq] returns @rack[#f]
 for at least one pair of corresponding elements.} Examples:
 
@@ -109,5 +110,4 @@ for at least one pair of corresponding elements.} Examples:
 (example (list '(a 1) '(a 2) '(b 3)) (λ (x y) (eq? (car x) (car y))))
 (example '(0 1 2 3) (λ (x y) (eq? (even? x) (even? y))))]
 
-
-
+@bold{@larger{@larger{The end}}}
