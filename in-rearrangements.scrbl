@@ -92,8 +92,8 @@ A rearrangement of a list is a list of the same elements but in arbitrary order,
 the initial order in argument @rack[lst] included.
 Argument @rack[eq] must be an equivalence relation for the set of the elements of
 argument @rack[lst]. What @rack[eq] does with other arguments is irrelevant.
-Two rearrangements are distinct if and only if they differ for at least one pair of corresponding
-elements according to equivalence relation @rack[eq].} Examples:
+Two rearrangements are distinct if and only if @rack[eq] returns @rack[#f]
+for at least one pair of corresponding elements.} Examples:
 
 @interaction[
 (require racket "in-rearrangements.rkt")
@@ -103,10 +103,11 @@ elements according to equivalence relation @rack[eq].} Examples:
 (example '())
 (example '(a))
 (example '(a b c))
-(example (list (list 'a) (list 'a) (list 'b)) eq?)
-(example (list (list 'a) (list 'a) (list 'b)) equal?)
-(example (list '(a 1) '(a 2) '(b 3))
- (λ (x y) (eq? (car x) (car y))))]
+(define aab (list (list 'a) (list 'a) (list 'b)))
+(example aab eq?)
+(example aab equal?)
+(example (list '(a 1) '(a 2) '(b 3)) (λ (x y) (eq? (car x) (car y))))
+(example '(0 1 2 3) (λ (x y) (eq? (even? x) (even? y))))]
 
 
 

@@ -5,16 +5,14 @@
 (require (only-in racket/generator in-generator yield))
 
 (define (in-rearrangements lst (eq equal?))
- (define (in-rearrangements lst)
-  (in-generator
-   (cond
-    ((null? lst) (yield '()))
-    (else
-     (for ((rotation (in-rotations lst eq)))
-      (define element (car rotation))
-      (for ((rearrangement (in-rearrangements (cdr rotation))))
-       (yield (cons element rearrangement))))))))
- (in-rearrangements lst))
+ (in-generator
+  (cond
+   ((null? lst) (yield '()))
+   (else
+    (for ((rotation (in-rotations lst eq)))
+     (define element (car rotation))
+     (for ((rearrangement (in-rearrangements (cdr rotation) eq)))
+      (yield (cons element rearrangement))))))))
 
 (define (in-rotations lst eq)
  (in-generator
