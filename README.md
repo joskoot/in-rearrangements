@@ -6,4 +6,4 @@ taking care of an equivalence relation between the elements of that list.
 
 (Often rearrangements are called permutations,
 
-but the word 'permutation' fails for lists contain multiple instances of the same element.)
+but the word 'permutation' fails for lists containing multiple instances of the same element.)
