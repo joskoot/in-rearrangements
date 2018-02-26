@@ -86,13 +86,12 @@
 @author{Jacob J. A. Koot}
 @(defmodule "in-rearrangements.rkt" #:packages ())
 
-@defproc[(in-rearrangements (lst list?) (eq (-> any/c any/c any/c) equal?)) (Sequenceof list?)]{
-Returns a sequence of all distinct rearrangements of argument @rack[lst].
+@defproc[(in-rearrangements (lst list?) (eq (any/c any/c . -> . any/c) equal?)) (Sequenceof list?)]{
+Returns a sequence of all distinct rearrangements of @rack[lst].
 A rearrangement of a list is a list of the same elements but in arbitrary order,
-the initial order in argument @rack[lst] included.
-Argument @rack[eq] must be an equivalence relation for the set of the elements of argument
-@rack[lst].
-What @rack[eq] does with other arguments than elements of argument @rack[lst] is irrelevant.
+the initial order in @rack[lst] included.
+@rack[eq] must be an equivalence relation for the elements of @rack[lst].
+What @rack[eq] does with other arguments than elements of @rack[lst] is irrelevant.
 Two rearrangements are distinct if and only if @rack[eq] returns @rack[#f]
 for at least one pair of corresponding elements.} Examples:
 
@@ -104,10 +103,24 @@ for at least one pair of corresponding elements.} Examples:
 (example '())
 (example '(a))
 (example '(a b c))
+(example '(a a b))
 (define aab (list (list 'a) (list 'a) (list 'b)))
-(example aab eq?)
 (example aab equal?)
+(example aab eq?)
 (example (list '(a 1) '(a 2) '(b 3)) (λ (x y) (eq? (car x) (car y))))
 (example '(0 1 2 3) (λ (x y) (eq? (even? x) (even? y))))]
+
+@defproc[ #:kind "predicate" (equivalence? (eq (-> any/c any/c)) (lst list?)) boolean?]{
+Procedure @rack[in-rearrangements]
+does not check @rack[eq] to be an equivalence relation for the elements of @rack[lst].
+Predicate @rack[equivalence?] can be used to check whether or not a given procedure @rack[eq]
+can be used as an equivalence relation for the elements of a given @rack[lst].
+
+Examples:}
+
+
+@example[(equivalence? = (range 100))]
+@example[(equivalence? >= (range 100))]
+@example[(equivalence? (λ (x y) (eq? (even? x) (even? y))) (range 100))]
 
 @bold{@larger{@larger{The end}}}
