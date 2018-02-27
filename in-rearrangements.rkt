@@ -5,10 +5,6 @@
 
 ;===================================================================================================
 
-(define (make-skip-set eq)
- (call-with-values (λ () (make-custom-set-types eq #:name 'skip-set))
-  (λ (a b c d e f g) g)))
-
 ;===================================================================================================
 
 (define (in-rearrangements lst (eq equal?))
@@ -37,7 +33,11 @@
        (yield (append head (reverse tail)))
        (loop new-head new-tail (set-add skip element))))))))
  
- (define skip-set (make-skip-set eq))
+ (define (make-skip-set)
+  (call-with-values (λ () (make-custom-set-types eq #:name 'skip-set))
+   (λ (a b c d e f g) g)))
+
+ (define skip-set (make-skip-set))
  
  (in-rearrangements lst))
 
@@ -57,4 +57,3 @@
 
 ;===================================================================================================
 ; The end
-

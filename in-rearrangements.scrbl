@@ -108,7 +108,8 @@ for at least one pair of corresponding elements.} Examples:
 (example aab equal?)
 (example aab eq?)
 (example (list '(a 1) '(a 2) '(b 3)) (λ (x y) (eq? (car x) (car y))))
-(example '(0 1 2 3) (λ (x y) (eq? (even? x) (even? y))))]
+(example '(0 1 2 3) (λ (x y) (eq? (even? x) (even? y))))
+(example '(0 1 2 3) (λ (x y) (zero? (modulo (- x y) 3))))]
 
 @defproc[ #:kind "predicate" (equivalence? (eq (-> any/c any/c)) (lst list?)) boolean?]{
 Procedure @rack[in-rearrangements]
@@ -122,5 +123,6 @@ Examples:}
 @example[(equivalence? = (range 100))]
 @example[(equivalence? >= (range 100))]
 @example[(equivalence? (λ (x y) (eq? (even? x) (even? y))) (range 100))]
+@example[(equivalence? (λ (x y) (zero? (modulo (- x y) 5))) (range 100))]
 
 @bold{@larger{@larger{The end}}}
