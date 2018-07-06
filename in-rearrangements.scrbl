@@ -93,7 +93,9 @@ the initial order in @rack[lst] included.
 @rack[eq] must be an equivalence relation for the elements of @rack[lst].
 What @rack[eq] does with other arguments than elements of @rack[lst] is irrelevant.
 Two rearrangements are distinct if and only if @rack[eq] returns @rack[#f]
-for at least one pair of corresponding elements.} Examples:
+for at least one pair of corresponding elements.}
+
+Examples:
 
 @interaction[
 (require racket "in-rearrangements.rkt")
@@ -118,7 +120,6 @@ Predicate @rack[equivalence?] can be used to check whether or not a given proced
 can be used as an equivalence relation for the elements of a given @rack[lst].
 
 Examples:}
-
 
 @example[(equivalence? = (range 100))]
 @example[(equivalence? >= (range 100))]

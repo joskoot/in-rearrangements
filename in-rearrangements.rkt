@@ -5,8 +5,6 @@
 
 ;===================================================================================================
 
-;===================================================================================================
-
 (define (in-rearrangements lst (eq equal?))
  
  (define (in-rearrangements lst)
@@ -21,23 +19,29 @@
  
  (define (in-rotations lst)
   (in-generator
-   (let loop ((head lst) (tail '()) (skip (skip-set)))
+   (let loop ((head lst) (tail '()) (skip-set empty-skip-set))
     (unless (null? head)
      (define element (car head))
      (define new-tail (cons element tail))
      (define new-head (cdr head))
      (cond
-      ((set-member? skip element)
-       (loop new-head new-tail skip))
+      ((set-member? skip-set element)
+       ; Same as (member element tail eq), but possibly faster for long lists.
+       ; However, possibly slower for short lists.
+       ; Using member we dont need skip-set and can remove procedure skip-set
+       ; and loop argument skip-set. This simplifies the code significantly.
+       (loop new-head new-tail skip-set))
       (else
        (yield (append head (reverse tail)))
-       (loop new-head new-tail (set-add skip element))))))))
+       ; The reversal is not necessary, but makes procedure in-rearrangements
+       ; produce the rearrangements in a more logical order.
+       ; The following is faster, though:
+       #;(yield (append head tail))
+       (loop new-head new-tail (set-add skip-set element))))))))
  
- (define (make-skip-set)
-  (call-with-values (λ () (make-custom-set-types eq #:name 'skip-set))
-   (λ (a b c d e f g) g)))
-
- (define skip-set (make-skip-set))
+ (define empty-skip-set
+  ((call-with-values (λ () (make-custom-set-types eq #:name 'skip-set))
+    (λ (a b c d e f g) g))))
  
  (in-rearrangements lst))
 
@@ -47,11 +51,11 @@
  (define (eql x y) (and (eq x y) #t))
  (define in-lst (in-list lst))
  (for/and ((x in-lst))
-  (and (eq x x)
+  (and (eq x x) ; check reflexivity
    (for/and ((y in-lst))
     (define xy (eql x y))
-    (and (eq? xy (eql y x))
-     (or (not xy)
+    (and (eq? xy (eql y x)) ; check symmetry
+     (or (not xy) ; check transitivity
       (for/and ((z in-lst))
        (or (not (eq y z)) (eq x z)))))))))
 
