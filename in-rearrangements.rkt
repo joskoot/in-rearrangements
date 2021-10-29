@@ -40,7 +40,7 @@
        (loop new-head new-tail (set-add skip-set element))))))))
  
  (define empty-skip-set
-  ((call-with-values (λ () (make-custom-set-types eq #:name 'skip-set))
+  ((call-with-values (λ () (make-custom-set-types (λ (x y) (eq x y)) #:name 'skip-set))
     (λ (a b c d e f g) g))))
  
  (in-rearrangements lst))
@@ -57,7 +57,9 @@
     (and (eq? xy (eql y x)) ; check symmetry
      (or (not xy) ; check transitivity
       (for/and ((z in-lst))
-       (or (not (eq y z)) (eq x z)))))))))
+       (or (not (eq y z)) (eql x z)))))))))
 
 ;===================================================================================================
 ; The end
+;(for/list ((r (in-rearrangements (range 10) =)) (k (in-range 100))) r)
+(equivalence? >= (range 100))
